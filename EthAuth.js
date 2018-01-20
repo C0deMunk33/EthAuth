@@ -9,7 +9,7 @@ module.exports = {
 		.then(console.log)
 		.catch(console.log);
 	},
-	createWallet:()=>{
+	createWallet:(pw)=>{
 		//TODO: Gather Entropy
 		console.log(web3.eth.accounts);
 		var wallet = web3.eth.accounts.wallet.create(1,web3.utils.randomHex(32));// [, entropy]);
@@ -18,17 +18,6 @@ module.exports = {
 		
 		saveWallet(pw);
 		return wallet;
-	},
-	saveWallet:(pw)=>{
-		if(typeof window !== 'undefined') {
-			
-			web3.eth.accounts.wallet.save(pw );
-		}
-		else{
-			//TODO: Save Locally
-			var backup = web3.eth.accounts.wallet.encrypt(pw);
-			console.log(backup);
-		}		
 	},
 	loadWallet:(pw)=>{
 		web3.eth.accounts.wallet.load(pw);
@@ -76,3 +65,15 @@ module.exports = {
 		});
 	}
 };
+
+function saveWallet(pw){
+	if(typeof window !== 'undefined') {
+		
+		web3.eth.accounts.wallet.save(pw);
+	}
+	else{
+		//TODO: Save Locally
+		var backup = web3.eth.accounts.wallet.encrypt(pw);
+		console.log(backup);
+	}		
+}
